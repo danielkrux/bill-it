@@ -1,0 +1,15 @@
+C:\School\Programmeren in .Net\Project\Bill\DAL\bin\Debug\DAL.dll.config
+C:\School\Programmeren in .Net\Project\Bill\DAL\bin\Debug\DAL.dll
+C:\School\Programmeren in .Net\Project\Bill\DAL\bin\Debug\DAL.pdb
+C:\School\Programmeren in .Net\Project\Bill\DAL\bin\Debug\EntityFramework.dll
+C:\School\Programmeren in .Net\Project\Bill\DAL\bin\Debug\EntityFramework.SqlServer.dll
+C:\School\Programmeren in .Net\Project\Bill\DAL\bin\Debug\Models.dll
+C:\School\Programmeren in .Net\Project\Bill\DAL\bin\Debug\Models.pdb
+C:\School\Programmeren in .Net\Project\Bill\DAL\bin\Debug\EntityFramework.xml
+C:\School\Programmeren in .Net\Project\Bill\DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\School\Programmeren in .Net\Project\Bill\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+C:\School\Programmeren in .Net\Project\Bill\DAL\obj\Debug\DAL.csproj.CopyComplete
+C:\School\Programmeren in .Net\Project\Bill\DAL\obj\Debug\DAL.dll
+C:\School\Programmeren in .Net\Project\Bill\DAL\obj\Debug\DAL.pdb
+C:\School\Programmeren in .Net\Project\Bill\DAL\obj\Debug\DAL.Migrations.init.resources
+C:\School\Programmeren in .Net\Project\Bill\DAL\obj\Debug\DAL.csproj.GenerateResource.cache
