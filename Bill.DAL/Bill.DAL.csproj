@@ -56,6 +56,10 @@
     <Compile Include="Migrations\201909271517521_init.designer.cs">
       <DependentUpon>201909271517521_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909281223102_init.cs" />
+    <Compile Include="Migrations\201909281223102_init.designer.cs">
+      <DependentUpon>201909281223102_init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -66,6 +70,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201909271517521_init.resx">
       <DependentUpon>201909271517521_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909281223102_init.resx">
+      <DependentUpon>201909281223102_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

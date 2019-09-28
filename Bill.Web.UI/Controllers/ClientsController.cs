@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Bill.DataModels;
 using Bill.DAL;
+using Bill.DataModels;
 
 namespace Presentation.Controllers
 {
