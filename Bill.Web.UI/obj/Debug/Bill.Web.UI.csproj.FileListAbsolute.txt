@@ -125,3 +125,5 @@ D:\School\ProgrammingDotNET\bill-it\Bill.Web.UI\obj\Debug\Bill.Web.UI.csproj.Cop
 D:\School\ProgrammingDotNET\bill-it\Bill.Web.UI\obj\Debug\Presentation.dll
 D:\School\ProgrammingDotNET\bill-it\Bill.Web.UI\obj\Debug\Presentation.pdb
 D:\School\ProgrammingDotNET\bill-it\Bill.Web.UI\obj\Debug\Bill.Web.UI.csprojAssemblyReference.cache
+D:\School\ProgrammingDotNET\bill-it\Bill.Web.UI\bin\Bill.BLL.dll
+D:\School\ProgrammingDotNET\bill-it\Bill.Web.UI\bin\Bill.BLL.pdb

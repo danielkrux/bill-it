@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BillContext.cs" />
+    <Compile Include="DataAccesses\ClientDataAccess.cs" />
     <Compile Include="Migrations\201909271517521_init.cs" />
     <Compile Include="Migrations\201909271517521_init.designer.cs">
       <DependentUpon>201909271517521_init.cs</DependentUpon>

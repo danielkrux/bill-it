@@ -1,36 +1,39 @@
 ﻿@model IEnumerable<Bill.DataModels.Client>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Klanten";
 }
 
-<h2>Index</h2>
+  <div class="row my-2">
+    <h2>Klanten</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    <div class="ml-auto my-auto">
+      <a href="clients/create" class="btn btn-primary">
+        <i class="fas fa-plus"></i>
+        Nieuwe Klant
+      </a>
+    </div>
+  </div>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Firstname)
+            Voornaam
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Lastname)
+            Achternaam
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+           E-mail
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Street)
+           Straat 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PostalCode)
+           Postcode
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Active)
+            Gemeente
         </th>
         <th></th>
     </tr>
@@ -56,12 +59,9 @@
             @Html.DisplayFor(modelItem => item.City)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+          <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Clients", new { id = item.ID})"><i class="fas fa-edit"></i></a>
+          <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Clients", new { id = item.ID})"><i class="fas fa-info-circle"></i></a>
+          <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Clients", new { id = item.ID})"><i class="fas fa-trash"></i></a>
         </td>
     </tr>
 }

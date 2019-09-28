@@ -174,6 +174,10 @@
     <Content Include="Views\Companies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bill.BLL\Bill.BLL.csproj">
+      <Project>{3d5c5b54-f7b9-48c9-8b3b-316a60db10bb}</Project>
+      <Name>Bill.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bill.DAL\Bill.DAL.csproj">
       <Project>{5C0CF886-60CB-4D44-8C44-0C8ED3C0528D}</Project>
       <Name>Bill.DAL</Name>
