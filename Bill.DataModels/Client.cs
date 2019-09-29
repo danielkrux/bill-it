@@ -12,6 +12,6 @@ namespace Bill.DataModels
         public string PostalCode { get; set; }
         public string City { get; set; }
         public bool Active { get; set; }
-        public List<Invoice> Invoices { get; set; }
+        public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }

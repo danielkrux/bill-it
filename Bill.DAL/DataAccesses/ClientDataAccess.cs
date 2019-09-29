@@ -11,7 +11,7 @@ namespace Bill.DAL
         {
             using (BillContext db  = new BillContext())
             {
-                return await db.Clients.ToListAsync();
+                return await db.Clients.Include(c => c.Invoices).ToListAsync();
             }
         }
 
@@ -20,11 +20,10 @@ namespace Bill.DAL
             using (BillContext db = new BillContext())
             {
                 return await db.Clients.FindAsync(id);
-
             }
         }
 
-        public static async void EditClient(Client client)
+        public static async Task EditClient(Client client)
         {
             using (BillContext db = new BillContext())
             {

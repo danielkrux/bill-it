@@ -1,58 +1,42 @@
 ﻿@model Bill.DataModels.Invoice
 
 @{
-    ViewBag.Title = "Details";
+  ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+  <div class="row mt-4">
+    <div class="col-6">
+      <h2>@Html.DisplayFor(i => i.Company.Name)</h2>
+      <p>@Html.DisplayFor(i => i.Company.Street)</p>
+      <p>@Html.DisplayFor(i => i.Company.PostalCode) @Html.DisplayFor(i => i.Company.City)</p>
+      <p>@Html.DisplayFor(i => i.Company.VATNumber)</p>
+    </div>
+    <div class="col-6">
+      <h2>@Html.DisplayFor(i => i.Client.Firstname) @Html.DisplayFor(i => i.Client.Lastname)</h2>
+      <p>@Html.DisplayFor(i => i.Client.Street)</p>
+      <p>@Html.DisplayFor(i => i.Client.PostalCode) @Html.DisplayFor(i => i.Client.City)</p>
+      <p>@Html.DisplayFor(i => i.Client.Email)</p>
+    </div>
+  </div>
 
-<div>
-    <h4>Invoice</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
+  <table class="table">
+    <tr>
+      <th>Omschrijving</th>
+      <th>Prijs per stuk</th>
+      <th>Aantal</th>
+      <th>Totaalprijs</th>
+    </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
+@foreach (var item in Model.InvoiceLines){
+  <tr>
+    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+    <td>@Html.DisplayFor(modelItem => item.Price)</td>
+    <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+    <td>@Html.DisplayFor(modelItem => item.TotalCost)</td>
+  </tr>
+}
+  </table>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Finished)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Finished)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Deleted)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Deleted)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ClientID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ClientID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyID)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

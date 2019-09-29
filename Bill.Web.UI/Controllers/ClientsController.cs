@@ -101,9 +101,9 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Client client = await db.Clients.FindAsync(id);
-            db.Clients.Remove(client);
-            await db.SaveChangesAsync();
+            Client client = await ClientDataAccess.GetClient(id);
+            client.Active = false;
+            await ClientDataAccess.EditClient(client);
             return RedirectToAction("Index");
         }
 

@@ -53,13 +53,10 @@
   <ItemGroup>
     <Compile Include="BillContext.cs" />
     <Compile Include="DataAccesses\ClientDataAccess.cs" />
-    <Compile Include="Migrations\201909271517521_init.cs" />
-    <Compile Include="Migrations\201909271517521_init.designer.cs">
-      <DependentUpon>201909271517521_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909281223102_init.cs" />
-    <Compile Include="Migrations\201909281223102_init.designer.cs">
-      <DependentUpon>201909281223102_init.cs</DependentUpon>
+    <Compile Include="DataAccesses\InvoiceDataAccess.cs" />
+    <Compile Include="Migrations\201909291418299_init.cs" />
+    <Compile Include="Migrations\201909291418299_init.designer.cs">
+      <DependentUpon>201909291418299_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,18 +66,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909271517521_init.resx">
-      <DependentUpon>201909271517521_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909281223102_init.resx">
-      <DependentUpon>201909281223102_init.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Bill.DataModels\Bill.DataModels.csproj">
       <Project>{9e43698e-c9b0-44e9-9910-8a1c6ca37f3e}</Project>
       <Name>Bill.DataModels</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201909291418299_init.resx">
+      <DependentUpon>201909291418299_init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

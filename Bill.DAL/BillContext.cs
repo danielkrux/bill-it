@@ -15,7 +15,22 @@ namespace Bill.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Client>()
-                .HasMany(c => c.Invoices);
+                .HasMany(c => c.Invoices)
+                .WithRequired(i => i.Client)
+                .HasForeignKey(i => i.ClientID);
+
+            modelBuilder.Entity<Invoice>()
+                .HasMany(i => i.InvoiceLines)
+                .WithRequired(il => il.Invoice)
+                .HasForeignKey(il => il.InvoiceID);
+
+            modelBuilder.Entity<Company>()
+                .HasMany(c => c.Invoices)
+                .WithRequired(i => i.Company)
+                .HasForeignKey(i => i.CompanyID);
+
+            modelBuilder.Entity<InvoiceLine>()
+                .Ignore(il => il.TotalCost);
         }
     }
 }

@@ -10,26 +10,23 @@ using System.Web.Mvc;
 using Bill.DAL;
 using Bill.DataModels;
 
-namespace Presentation.Controllers
+namespace Bill.Web.UI.Controllers
 {
     public class InvoicesController : Controller
     {
         private BillContext db = new BillContext();
-
-        // GET: Invoices
         public async Task<ActionResult> Index()
         {
-            return View(await db.Invoices.ToListAsync());
+            return View(await InvoiceDataAccess.GetInvoices());
         }
 
-        // GET: Invoices/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public async Task<ActionResult> Details(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Invoice invoice = await db.Invoices.FindAsync(id);
+            Invoice invoice = await InvoiceDataAccess.GetInvoice(id);
             if (invoice == null)
             {
                 return HttpNotFound();
@@ -37,15 +34,11 @@ namespace Presentation.Controllers
             return View(invoice);
         }
 
-        // GET: Invoices/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Invoices/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID,Date,Finished,Deleted,ClientID,CompanyID")] Invoice invoice)
@@ -60,7 +53,6 @@ namespace Presentation.Controllers
             return View(invoice);
         }
 
-        // GET: Invoices/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,9 +67,6 @@ namespace Presentation.Controllers
             return View(invoice);
         }
 
-        // POST: Invoices/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ID,Date,Finished,Deleted,ClientID,CompanyID")] Invoice invoice)
@@ -91,7 +80,6 @@ namespace Presentation.Controllers
             return View(invoice);
         }
 
-        // GET: Invoices/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -106,7 +94,6 @@ namespace Presentation.Controllers
             return View(invoice);
         }
 
-        // POST: Invoices/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)

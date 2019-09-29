@@ -17,53 +17,45 @@
 
 <table class="table">
     <tr>
-        <th>
-            Voornaam
-        </th>
-        <th>
-            Achternaam
-        </th>
-        <th>
-           E-mail
-        </th>
-        <th>
-           Straat 
-        </th>
-        <th>
-           Postcode
-        </th>
-        <th>
-            Gemeente
-        </th>
+        <th>Voornaam</th>
+        <th>Achternaam </th>
+        <th> E-mail</th>
+        <th>Straat</th>
+        <th>Postcode</th>
+        <th>Gemeente</th>
+        <th># Facturen</th>        
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Firstname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lastname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Street)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostalCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-          <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Clients", new { id = item.ID})"><i class="fas fa-edit"></i></a>
-          <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Clients", new { id = item.ID})"><i class="fas fa-info-circle"></i></a>
-          <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Clients", new { id = item.ID})"><i class="fas fa-trash"></i></a>
-        </td>
-    </tr>
+<tr>
+  <td>
+    @Html.DisplayFor(modelItem => item.Firstname)
+  </td>
+  <td>
+    @Html.DisplayFor(modelItem => item.Lastname)
+  </td>
+  <td>
+    @Html.DisplayFor(modelItem => item.Email)
+  </td>
+  <td>
+    @Html.DisplayFor(modelItem => item.Street)
+  </td>
+  <td>
+    @Html.DisplayFor(modelItem => item.PostalCode)
+  </td>
+  <td>
+    @Html.DisplayFor(modelItem => item.City)
+  </td>
+  <td>
+    @Html.DisplayFor(modelItem => item.Invoices.Count)
+  </td>
+  <td>
+    <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Clients", new { id = item.ID})"><i class="fas fa-edit"></i></a>
+    <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Clients", new { id = item.ID})"><i class="fas fa-info-circle"></i></a>
+    <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Clients", new { id = item.ID})"><i class="fas fa-trash"></i></a>
+  </td>
+</tr>
 }
 
 </table>
