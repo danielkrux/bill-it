@@ -31,6 +31,9 @@ namespace Bill.DAL
 
             modelBuilder.Entity<InvoiceLine>()
                 .Ignore(il => il.TotalCost);
+
+            modelBuilder.Entity<Invoice>()
+                .Ignore(i => i.InvoiceTotalCost);
         }
     }
 }

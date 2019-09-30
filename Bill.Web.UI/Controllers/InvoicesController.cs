@@ -9,15 +9,22 @@ using System.Web;
 using System.Web.Mvc;
 using Bill.DAL;
 using Bill.DataModels;
+using Bill.BLL;
 
 namespace Bill.Web.UI.Controllers
 {
     public class InvoicesController : Controller
     {
         private BillContext db = new BillContext();
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string sortOrder)
         {
-            return View(await InvoiceDataAccess.GetInvoices());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.DateSortParam = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
+            ViewBag.EmailSortParam = sortOrder == "email" ? "email_desc" : "email";
+            ViewBag.CompanySortParam = sortOrder == "company" ? "company_desc" : "company";
+            ViewBag.FinishedSortParam = sortOrder == "finished" ? "finished_desc" : "finished";
+            List<Invoice> invoices = await InvoiceDataAccess.GetInvoices();
+            return View(InvoiceLogic.SortTable(sortOrder, invoices));
         }
 
         public async Task<ActionResult> Details(int id)
@@ -27,6 +34,7 @@ namespace Bill.Web.UI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Invoice invoice = await InvoiceDataAccess.GetInvoice(id);
+            invoice.InvoiceTotalCost = InvoiceLogic.CalculateInvoiceTotal(invoice);
             if (invoice == null)
             {
                 return HttpNotFound();
@@ -45,8 +53,7 @@ namespace Bill.Web.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Invoices.Add(invoice);
-                await db.SaveChangesAsync();
+                await InvoiceDataAccess.CreateInvoice(invoice);
                 return RedirectToAction("Index");
             }
 

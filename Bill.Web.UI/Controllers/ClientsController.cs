@@ -18,8 +18,9 @@ namespace Presentation.Controllers
         private BillContext db = new BillContext();
 
         public async Task<ActionResult> Index()
-        {    
-            List<Client> clients = await ClientLogic.GetActiveClients();
+        {
+            List<Client> clients = await ClientDataAccess.GetClients();
+            List<Client> activeClients = await ClientLogic.GetActiveClients(clients);
             return View(clients);
         }
 

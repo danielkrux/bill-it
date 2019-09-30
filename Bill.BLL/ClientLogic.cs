@@ -1,5 +1,4 @@
-﻿using Bill.DAL;
-using Bill.DataModels;
+﻿using Bill.DataModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,9 +7,8 @@ namespace Bill.BLL
 {
     public class ClientLogic
     {
-        public static async Task<List<Client>> GetActiveClients()
+        public static async Task<List<Client>> GetActiveClients(List<Client> clients)
         {
-            List<Client> clients = await ClientDataAccess.GetClients();
             return clients.Where(c => c.Active == true).ToList();
         }
 

@@ -13,6 +13,9 @@ namespace Bill.DataModels
         public bool Deleted { get; set; }
         public int ClientID { get; set; }
         public int CompanyID { get; set; }
+        public string Code { get; set; }
+
+        public double InvoiceTotalCost { get; set; }
 
         public virtual Client Client { get; set; }
         public virtual Company Company { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Data.Entity;
+using Bill.BLL;
 
 namespace Bill.DAL
 {
@@ -27,6 +28,18 @@ namespace Bill.DAL
                     .Include(i => i.Company)
                     .Include(i => i.InvoiceLines)
                     .SingleOrDefaultAsync(i => i.ID == id);
+            }
+        }
+
+        public static async Task CreateInvoice(Invoice invoice)
+        {
+            using (BillContext db = new BillContext())
+            {
+                db.Invoices.Add(invoice);
+                await db.SaveChangesAsync();
+                invoice.Code = InvoiceLogic.CreateInvoiceCode(invoice.ID);
+                db.Entry(invoice).State = EntityState.Modified;
+                await db.SaveChangesAsync();
             }
         }
     }
