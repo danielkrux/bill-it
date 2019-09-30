@@ -30,7 +30,8 @@ namespace Bill.DAL
                 .HasForeignKey(i => i.CompanyID);
 
             modelBuilder.Entity<InvoiceLine>()
-                .Ignore(il => il.TotalCost);
+                .Ignore(il => il.TotalCostAfterDiscount)
+                .Ignore(il => il.DiscountPercent);
 
             modelBuilder.Entity<Invoice>()
                 .Ignore(i => i.InvoiceTotalCost);

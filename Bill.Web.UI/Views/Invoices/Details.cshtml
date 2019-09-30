@@ -8,32 +8,35 @@
     <h2 class="">Factuur @Model.Code</h2>
     @if (Model.Finished)
     {
-        <span class="badge badge-success my-auto ml-2 p-2" >Afgewerkt</span>
+        <span class="badge badge-success my-auto ml-2 p-2 d-print-none" >Afgewerkt</span>
     }
-    <div class="ml-auto my-auto">
-      <button class="btn btn-light mr-2"><i class="fas fa-print"></i>&nbsp;Adrukken</button>
+    <div class="ml-auto my-auto d-print-none">
+      <button class="btn btn-light mr-2" onclick="window.print()"><i class="fas fa-print"></i>&nbsp;Adrukken</button>
       <button class="btn btn-danger mr-2"><i class="fas fa-trash"></i>&nbsp;Verwijderen</button>
       <button class="btn btn-primary @(@Model.Finished ? "disabled" : "")"><i class="fas fa-plus"></i>&nbsp;Item toevoegen</button>
     </div>
   </div>
   
 
-  <div class="row mb-4">
-    <div class="col-6">
+  <div class="row mb-4 h-100">
+    <div class="col-5">
       <div class="card p-4">
         <h2>@Html.DisplayFor(i => i.Company.Name)</h2>
-        <p>@Html.DisplayFor(i => i.Company.Street)</p>
-        <p>@Html.DisplayFor(i => i.Company.PostalCode) @Html.DisplayFor(i => i.Company.City)</p>
-        <p>@Html.DisplayFor(i => i.Company.VATNumber)</p>
+        <p class="m-0">@Html.DisplayFor(i => i.Company.Street)</p>
+        <p class="m-0">@Html.DisplayFor(i => i.Company.PostalCode) @Html.DisplayFor(i => i.Company.City)</p>
+        <p class="m-0">@Html.DisplayFor(i => i.Company.VATNumber)</p>
         <a class="stretched-link" href="/Companies/Details/@Model.Company.ID"></a>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-2 my-auto" align="center">
+      <i class="fas fa-arrow-right fa-5x"></i>
+    </div>
+    <div class="col-5">
       <div class="card p-4">
         <h2>@Html.DisplayFor(i => i.Client.Firstname) @Html.DisplayFor(i => i.Client.Lastname)</h2>
-        <p>@Html.DisplayFor(i => i.Client.Street)</p>
-        <p>@Html.DisplayFor(i => i.Client.PostalCode) @Html.DisplayFor(i => i.Client.City)</p>
-        <p>@Html.DisplayFor(i => i.Client.Email)</p>
+        <p class="m-0">@Html.DisplayFor(i => i.Client.Street)</p>
+        <p class="m-0">@Html.DisplayFor(i => i.Client.PostalCode) @Html.DisplayFor(i => i.Client.City)</p>
+        <p class="m-0">@Html.DisplayFor(i => i.Client.Email)</p>
         <a class="stretched-link" href="/Clients/Details/@Model.Client.ID"></a>
       </div>
     </div>
@@ -45,6 +48,7 @@
         <th>#</th>
         <th>Omschrijving</th>
         <th>Bedrag</th>
+        <th>Korting</th>
         <th>Totaalprijs</th>
         <th>BTW</th>
       </tr>
@@ -56,15 +60,16 @@
         <td>@Html.DisplayFor(modelItem => item.Amount)</td>
         <td>@Html.DisplayFor(modelItem => item.Description)</td>
         <td>€&nbsp;@Html.DisplayFor(modelItem => item.Price)</td>
-        <td>€&nbsp;@Html.DisplayFor(modelItem => item.TotalCost)</td>
+        <td>@Html.DisplayFor(modelItem  => item.DiscountPercent)&nbsp;%</td>
+        <td>€&nbsp;@Html.DisplayFor(modelItem => item.TotalCostAfterDiscount)</td>
         <td>@Html.DisplayFor(modelItem => item.VAT)%</td>
       </tr>
       }
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="3"><strong>Total</strong></td>
-        <td><strong>€&nbsp;@Model.InvoiceTotalCost</strong></td>
+        <td colspan="4"><strong>Totaal</strong></td>
+        <td colspan="2"><strong>€&nbsp;@Model.InvoiceTotalCost</strong></td>
       </tr>
     </tfoot>
   </table>

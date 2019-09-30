@@ -55,7 +55,13 @@ namespace Bill.BLL
 
         public static double CalculateInvoiceTotal(Invoice invoice)
         {
-            return invoice.InvoiceLines.ToList().Sum(x => x.TotalCost);
+            return invoice.InvoiceLines.ToList().Sum(x => x.TotalCostAfterDiscount);
+        }
+
+        public static double CalculateInvoiceLineTotal(InvoiceLine InvoiceLine)
+        {
+            var discount = (InvoiceLine.Price * InvoiceLine.Amount) / 100 * InvoiceLine.Discount;
+            return (InvoiceLine.Price * InvoiceLine.Amount) - discount;
         }
     }
 }

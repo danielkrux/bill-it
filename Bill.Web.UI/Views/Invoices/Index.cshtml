@@ -52,8 +52,8 @@
     }
   </td>
   <td class="text-right">
+    <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Invoices", new { id = item.ID})">Bekijk factuur</a>
     <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Invoices", new { id = item.ID})"><i class="fas fa-edit"></i></a>
-    <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Invoices", new { id = item.ID})"><i class="fas fa-info-circle"></i></a>
     <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Invoices", new { id = item.ID})"><i class="fas fa-trash"></i></a>
   </td>
 </tr>
