@@ -6,27 +6,27 @@ namespace Bill.DataModels
     {
         public int ID { get; set; }
         public string Description { get; set; }
-        public double Price { get; set; }
-        public double Discount { get; set; }
+        public decimal Price { get; set; }
+        public decimal Discount { get; set; }
         public int Amount { get; set; }
-        public double VAT { get; set; }
+        public decimal VAT { get; set; }
         public int InvoiceID { get; set; }
 
         public Invoice Invoice { get; set; }
 
         public int DiscountPercent => Convert.ToInt32(Discount * 100);
 
-        public double TotalCostAfterDiscount
+        public decimal TotalCostAfterDiscount
         {
-            get { return CalculateInvoiceLineTotal(); }
+            get { return CalculateSubtotal(); }
             set { }
         }
 
-        public double CalculateInvoiceLineTotal()
+        public decimal CalculateSubtotal()
         {
             var discount = (Price * Amount) / 100 * DiscountPercent;
-            var total = (Price * Amount) - discount;
-            return Math.Round(total, 2);
+            var subTotal = (Price * Amount) - discount;
+            return Math.Round(subTotal, 2);
         }
     }
 }

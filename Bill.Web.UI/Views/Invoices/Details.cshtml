@@ -4,72 +4,84 @@
   ViewBag.Title = $"Details {Model.Code}";
 }
 
-  <div class="row my-4">
-    <h2 class="">Factuur @Model.Code</h2>
-    @if (Model.Finished)
+<div class="row my-4">
+  <h2 class="">Factuur @Model.Code</h2>
+  @if (Model.Finished)
+  {
+    <span class="badge badge-success my-auto ml-2 p-2 d-print-none">Afgewerkt</span>
+  }
+  <div class="ml-auto my-auto d-print-none">
+    <button class="btn btn-light mr-2" onclick="window.print()"><i class="fas fa-print"></i>&nbsp;Adrukken</button>
+    <button class="btn btn-danger mr-2"><i class="fas fa-trash"></i>&nbsp;Verwijderen</button>
+    <button class="btn btn-primary @(@Model.Finished ? "disabled" : "")"><i class="fas fa-plus"></i>&nbsp;Item toevoegen</button>
+  </div>
+</div>
+
+
+<div class="row mb-4 h-100">
+  <div class="col-5">
+    <div class="card p-4">
+      <h2>@Html.DisplayFor(i => i.Company.Name)</h2>
+      <p class="m-0">@Html.DisplayFor(i => i.Company.Street)</p>
+      <p class="m-0">@Html.DisplayFor(i => i.Company.PostalCode) @Html.DisplayFor(i => i.Company.City)</p>
+      <p class="m-0">@Html.DisplayFor(i => i.Company.VATNumber)</p>
+      <a class="stretched-link" href="/Companies/Details/@Model.Company.ID"></a>
+    </div>
+  </div>
+  <div class="col-2 my-auto" align="center">
+    <i class="fas fa-arrow-right fa-5x"></i>
+  </div>
+  <div class="col-5">
+    <div class="card p-4">
+      <h2>@Html.DisplayFor(i => i.Client.Firstname) @Html.DisplayFor(i => i.Client.Lastname)</h2>
+      <p class="m-0">@Html.DisplayFor(i => i.Client.Street)</p>
+      <p class="m-0">@Html.DisplayFor(i => i.Client.PostalCode) @Html.DisplayFor(i => i.Client.City)</p>
+      <p class="m-0">@Html.DisplayFor(i => i.Client.Email)</p>
+      <a class="stretched-link" href="/Clients/Details/@Model.Client.ID"></a>
+    </div>
+  </div>
+</div>
+
+<table class="table ">
+  <thead>
+    <tr>
+      <th>Omschrijving</th>
+      <th>Aantal</th>
+      <th>Stukprijs</th>
+      <th>Korting</th>
+      <th>Subtotaal</th>
+      <th>BTW</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model.InvoiceLines)
     {
-        <span class="badge badge-success my-auto ml-2 p-2 d-print-none" >Afgewerkt</span>
-    }
-    <div class="ml-auto my-auto d-print-none">
-      <button class="btn btn-light mr-2" onclick="window.print()"><i class="fas fa-print"></i>&nbsp;Adrukken</button>
-      <button class="btn btn-danger mr-2"><i class="fas fa-trash"></i>&nbsp;Verwijderen</button>
-      <button class="btn btn-primary @(@Model.Finished ? "disabled" : "")"><i class="fas fa-plus"></i>&nbsp;Item toevoegen</button>
-    </div>
-  </div>
-  
-
-  <div class="row mb-4 h-100">
-    <div class="col-5">
-      <div class="card p-4">
-        <h2>@Html.DisplayFor(i => i.Company.Name)</h2>
-        <p class="m-0">@Html.DisplayFor(i => i.Company.Street)</p>
-        <p class="m-0">@Html.DisplayFor(i => i.Company.PostalCode) @Html.DisplayFor(i => i.Company.City)</p>
-        <p class="m-0">@Html.DisplayFor(i => i.Company.VATNumber)</p>
-        <a class="stretched-link" href="/Companies/Details/@Model.Company.ID"></a>
-      </div>
-    </div>
-    <div class="col-2 my-auto" align="center">
-      <i class="fas fa-arrow-right fa-5x"></i>
-    </div>
-    <div class="col-5">
-      <div class="card p-4">
-        <h2>@Html.DisplayFor(i => i.Client.Firstname) @Html.DisplayFor(i => i.Client.Lastname)</h2>
-        <p class="m-0">@Html.DisplayFor(i => i.Client.Street)</p>
-        <p class="m-0">@Html.DisplayFor(i => i.Client.PostalCode) @Html.DisplayFor(i => i.Client.City)</p>
-        <p class="m-0">@Html.DisplayFor(i => i.Client.Email)</p>
-        <a class="stretched-link" href="/Clients/Details/@Model.Client.ID"></a>
-      </div>
-    </div>
-  </div>
-
-  <table class="table ">
-    <thead>
       <tr>
-        <th>#</th>
-        <th>Omschrijving</th>
-        <th>Bedrag</th>
-        <th>Korting</th>
-        <th>Totaalprijs</th>
-        <th>BTW</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach (var item in Model.InvoiceLines)
-      {
-      <tr>
-        <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+
         <td>@Html.DisplayFor(modelItem => item.Description)</td>
+        <td>@Html.DisplayFor(modelItem => item.Amount)</td>
         <td>€&nbsp;@Html.DisplayFor(modelItem => item.Price)</td>
-        <td>@Html.DisplayFor(modelItem  => item.DiscountPercent)&nbsp;%</td>
+        <td>@Html.DisplayFor(modelItem => item.DiscountPercent)&nbsp;%</td>
         <td>€&nbsp;@Html.DisplayFor(modelItem => item.TotalCostAfterDiscount)</td>
         <td>@Html.DisplayFor(modelItem => item.VAT)%</td>
       </tr>
-      }
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="4"><strong>Totaal</strong></td>
-        <td colspan="2"><strong>€&nbsp;@Model.InvoiceTotalCost</strong></td>
-      </tr>
-    </tfoot>
-  </table>
+    }
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="1"></td>
+      <td colspan="3">Totaal excl. BTW</td>
+      <td colspan="2">€&nbsp;@Model.TotalBeforeVAT</td>
+    </tr>
+    <tr>
+      <td colspan="1"></td>
+      <td colspan="3">Totaal BTW</td>
+      <td colspan="2">€&nbsp;@(@Model.TotalAfterVAT - Model.TotalBeforeVAT)</td>
+    </tr>
+    <tr>
+      <td colspan="1"></td>
+      <td colspan="3"><strong>Totaal incl. BTW</strong></td>
+      <td colspan="2"><strong>€&nbsp;@Model.TotalAfterVAT</strong></td>
+    </tr>
+  </tfoot>
+</table>

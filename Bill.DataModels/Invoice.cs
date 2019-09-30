@@ -15,7 +15,11 @@ namespace Bill.DataModels
         public int CompanyID { get; set; }
         public string Code { get; set; }
 
-        public double InvoiceTotalCost { get; set; }
+        public List<TotalPerVATRate> TotalPerVATRate { get; set; }
+
+        public decimal TotalBeforeVAT { get; set; }
+        public decimal TotalAfterVAT { get; set; }
+
 
         public virtual Client Client { get; set; }
         public virtual Company Company { get; set; }

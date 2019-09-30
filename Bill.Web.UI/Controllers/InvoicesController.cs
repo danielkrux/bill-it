@@ -40,7 +40,9 @@ namespace Bill.Web.UI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Invoice invoice = await InvoiceDataAccess.GetInvoice(id);
-            invoice.InvoiceTotalCost = InvoiceLogic.CalculateInvoiceTotal(invoice);
+            invoice.TotalBeforeVAT = InvoiceLogic.CalculateTotalBeforeVAT(invoice);
+            invoice.TotalPerVATRate = InvoiceLogic.CalculateTotalPerVATRate(invoice);
+            invoice.TotalAfterVAT = InvoiceLogic.CalculateTotalAfterVAT(invoice.TotalPerVATRate);
             if (invoice == null)
             {
                 return HttpNotFound();

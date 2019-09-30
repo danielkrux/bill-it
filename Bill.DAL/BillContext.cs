@@ -34,7 +34,11 @@ namespace Bill.DAL
                 .Ignore(il => il.DiscountPercent);
 
             modelBuilder.Entity<Invoice>()
-                .Ignore(i => i.InvoiceTotalCost);
+                .Ignore(i => i.TotalAfterVAT)
+                .Ignore(i => i.TotalBeforeVAT)
+                .Ignore(i => i.TotalPerVATRate);
+
+            modelBuilder.Ignore<TotalPerVATRate>();
         }
     }
 }

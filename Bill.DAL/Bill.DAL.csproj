@@ -62,6 +62,10 @@
     <Compile Include="Migrations\201909291758261_AddedInvoiceCode.designer.cs">
       <DependentUpon>201909291758261_AddedInvoiceCode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909301350450_DoubleToDecimal.cs" />
+    <Compile Include="Migrations\201909301350450_DoubleToDecimal.designer.cs">
+      <DependentUpon>201909301350450_DoubleToDecimal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -85,6 +89,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909291758261_AddedInvoiceCode.resx">
       <DependentUpon>201909291758261_AddedInvoiceCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909301350450_DoubleToDecimal.resx">
+      <DependentUpon>201909301350450_DoubleToDecimal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

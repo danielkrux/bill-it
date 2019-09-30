@@ -8,7 +8,7 @@ namespace Bill.BLL
 {
     public class InvoiceLogic
     {
-        public static List<Invoice> SortTable(string SortOrder, List<Invoice>Invoices)
+        public static List<Invoice> SortTable(string SortOrder, List<Invoice> Invoices)
         {
             switch (SortOrder)
             {
@@ -43,7 +43,7 @@ namespace Bill.BLL
             return Invoices;
         }
 
-        public static List<Invoice> SearchInvoices(string SearchString, List<Invoice>Invoices)
+        public static List<Invoice> SearchInvoices(string SearchString, List<Invoice> Invoices)
         {
             return Invoices = Invoices.Where(i => i.Client.Email.Contains(SearchString) || i.Company.Name.Contains(SearchString)).ToList();
         }
@@ -53,15 +53,46 @@ namespace Bill.BLL
             return DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("d2") + '-' + $"{invoiceID:0000}";
         }
 
-        public static double CalculateInvoiceTotal(Invoice invoice)
+        public static decimal CalculateSubtotal(InvoiceLine InvoiceLine)
+        {
+            var discount = (InvoiceLine.Price * InvoiceLine.Amount) / 100 * InvoiceLine.Discount;
+            return (InvoiceLine.Price * InvoiceLine.Amount) - discount;
+        }
+
+        public static decimal CalculateTotalBeforeVAT(Invoice invoice)
         {
             return invoice.InvoiceLines.ToList().Sum(x => x.TotalCostAfterDiscount);
         }
 
-        public static double CalculateInvoiceLineTotal(InvoiceLine InvoiceLine)
+        public static List<TotalPerVATRate> CalculateTotalPerVATRate(Invoice Invoice)
         {
-            var discount = (InvoiceLine.Price * InvoiceLine.Amount) / 100 * InvoiceLine.Discount;
-            return (InvoiceLine.Price * InvoiceLine.Amount) - discount;
+            var groupedInvoices = Invoice.InvoiceLines.GroupBy(x => x.VAT).ToList();
+            List<TotalPerVATRate> CalculatedTotals = new List<TotalPerVATRate>();
+            foreach (var group in groupedInvoices)
+            {
+                decimal vatRate = group.Key;
+                decimal groupTotal = 0;
+                foreach (var item in group)
+                {
+                    var discount = (item.Price * item.Amount) / 100 * item.DiscountPercent;
+                    groupTotal += (item.Price * item.Amount) - discount;
+                }
+                TotalPerVATRate totalPerVAT = new TotalPerVATRate
+                {
+                    TotalBeforeVAT = groupTotal,
+                    VATRate = vatRate,
+                    VATPrice = groupTotal / 100 * vatRate,
+                    TotalAfterVAT = groupTotal + (groupTotal / 100 * vatRate)
+                };
+                CalculatedTotals.Add(totalPerVAT);
+                CalculateTotalAfterVAT(CalculatedTotals);
+            }
+            return CalculatedTotals;
+        }
+
+        public static decimal CalculateTotalAfterVAT(List<TotalPerVATRate> CalculatedTotals)
+        {
+            return CalculatedTotals.Sum(c => c.TotalAfterVAT);
         }
     }
 }
