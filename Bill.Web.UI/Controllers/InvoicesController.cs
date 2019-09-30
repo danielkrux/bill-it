@@ -16,15 +16,21 @@ namespace Bill.Web.UI.Controllers
     public class InvoicesController : Controller
     {
         private BillContext db = new BillContext();
-        public async Task<ActionResult> Index(string sortOrder)
+        public async Task<ActionResult> Index(string sortOrder, string searchString)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.DateSortParam = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
             ViewBag.EmailSortParam = sortOrder == "email" ? "email_desc" : "email";
             ViewBag.CompanySortParam = sortOrder == "company" ? "company_desc" : "company";
             ViewBag.FinishedSortParam = sortOrder == "finished" ? "finished_desc" : "finished";
+            ViewBag.CurrentFilter = searchString;
             List<Invoice> invoices = await InvoiceDataAccess.GetInvoices();
-            return View(InvoiceLogic.SortTable(sortOrder, invoices));
+            invoices = InvoiceLogic.SortTable(sortOrder, invoices);
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                invoices = InvoiceLogic.SearchInvoices(searchString, invoices);
+            }
+            return View(invoices);
         }
 
         public async Task<ActionResult> Details(int id)

@@ -4,16 +4,26 @@
   ViewBag.Title = "Index";
 }
 
-<div class="row my-2">
-  <h2>Facturen</h2>
-
-  <div class="ml-auto my-auto">
-    <a href="invoices/create" class="btn btn-primary">
-      <i class="fas fa-plus"></i>
-      Nieuwe Factuur
-    </a>
+  <div class="row my-2">
+    <h2>Facturen</h2>
+    <div class="ml-4 my-auto">
+      @using (Html.BeginForm("Index", "invoices", FormMethod.Get))
+      {
+        <div class="input-group">
+          @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @placeholder = "Zoek factuur..." })
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="ml-auto my-auto">
+      <a href="invoices/create" class="btn btn-primary">
+        <i class="fas fa-plus"></i>
+        Nieuwe Factuur
+      </a>
+    </div>
   </div>
-</div>
 <table class="table">
   <tr>
     <th>@Html.ActionLink("Factuurdatum", "Index", new { sortOrder = ViewBag.DateSortParam, currentFilter = ViewBag.CurrentFilter })</th>

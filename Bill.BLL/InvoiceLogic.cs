@@ -42,6 +42,12 @@ namespace Bill.BLL
             }
             return Invoices;
         }
+
+        public static List<Invoice> SearchInvoices(string SearchString, List<Invoice>Invoices)
+        {
+            return Invoices = Invoices.Where(i => i.Client.Email.Contains(SearchString) || i.Company.Name.Contains(SearchString)).ToList();
+        }
+
         public static string CreateInvoiceCode(int invoiceID)
         {
             return DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("d2") + '-' + $"{invoiceID:0000}";
