@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="BillContext.cs" />
     <Compile Include="DataAccesses\ClientDataAccess.cs" />
+    <Compile Include="DataAccesses\CompanyDataAccess.cs" />
     <Compile Include="DataAccesses\InvoiceDataAccess.cs" />
     <Compile Include="Migrations\201909291418299_init.cs" />
     <Compile Include="Migrations\201909291418299_init.designer.cs">

@@ -29,7 +29,7 @@
     </div>
   </div>
   <div class="col-2 my-auto" align="center">
-    <i class="fas fa-arrow-right fa-5x"></i>
+    <i class="fas fa-long-arrow-alt-right fa-4x" style="color:#007bff"></i>
   </div>
   <div class="col-5">
     <div class="card p-4">
@@ -67,21 +67,27 @@
       </tr>
     }
   </tbody>
-  <tfoot>
+  <tfoot style="border-top:2px solid #007bff">
     <tr>
       <td colspan="1"></td>
       <td colspan="3">Totaal excl. BTW</td>
       <td colspan="2">€&nbsp;@Model.TotalBeforeVAT</td>
     </tr>
-    <tr>
-      <td colspan="1"></td>
-      <td colspan="3">Totaal BTW</td>
-      <td colspan="2">€&nbsp;@(@Model.TotalAfterVAT - Model.TotalBeforeVAT)</td>
-    </tr>
-    <tr>
+    @foreach (var item in Model.TotalPerVATRate)
+    {
+      <tr>
+        <td colspan="1"></td>
+        <td colspan="3">@item.VATRate% over €&nbsp;@item.TotalBeforeVAT</td>
+        <td colspan="2">
+          €&nbsp;@item.VATPrice
+        </td>
+      </tr>
+
+    }
+    <tr style="border-top:2px solid #007bff">
       <td colspan="1"></td>
       <td colspan="3"><strong>Totaal incl. BTW</strong></td>
-      <td colspan="2"><strong>€&nbsp;@Model.TotalAfterVAT</strong></td>
+      <td colspan="2"><strong style="color:#007bff">€&nbsp;@Model.TotalAfterVAT</strong></td>
     </tr>
   </tfoot>
 </table>

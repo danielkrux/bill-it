@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 
-namespace Bill.DAL
+namespace Bill.DAL.DataAccesses
 {
     public class ClientDataAccess
     {
         public static async Task<List<Client>> GetClients()
+        {
+            using (BillContext db = new BillContext())
+            {
+                return await db.Clients.ToListAsync();
+            }
+        }
+
+        public static async Task<List<Client>> GetClientsWithInvoices()
         {
             using (BillContext db  = new BillContext())
             {

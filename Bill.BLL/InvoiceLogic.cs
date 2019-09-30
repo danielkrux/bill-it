@@ -79,10 +79,10 @@ namespace Bill.BLL
                 }
                 TotalPerVATRate totalPerVAT = new TotalPerVATRate
                 {
-                    TotalBeforeVAT = groupTotal,
-                    VATRate = vatRate,
-                    VATPrice = groupTotal / 100 * vatRate,
-                    TotalAfterVAT = groupTotal + (groupTotal / 100 * vatRate)
+                    TotalBeforeVAT = Math.Round(groupTotal, 2),
+                    VATRate = Math.Round(vatRate, 0),
+                    VATPrice = Math.Round(groupTotal / 100 * vatRate, 2),
+                    TotalAfterVAT = Math.Round(groupTotal + (groupTotal / 100 * vatRate), 2)
                 };
                 CalculatedTotals.Add(totalPerVAT);
                 CalculateTotalAfterVAT(CalculatedTotals);

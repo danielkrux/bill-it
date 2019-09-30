@@ -8,8 +8,10 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Bill.DAL;
+using Bill.DAL.DataAccesses;
 using Bill.DataModels;
 using Bill.BLL;
+using Bill.Web.UI.ViewModels;
 
 namespace Bill.Web.UI.Controllers
 {
@@ -50,9 +52,12 @@ namespace Bill.Web.UI.Controllers
             return View(invoice);
         }
 
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            Invoice invoice = new Invoice();
+            List<Client> clients = await ClientDataAccess.GetClients();
+            List<Company> companies = await CompanyDataAccess.GetCompanies();
+            return View(new InvoiceClientsCompanies() { Invoice = invoice, Clients = clients, Companies = companies });
         }
 
         [HttpPost]
@@ -68,23 +73,25 @@ namespace Bill.Web.UI.Controllers
             return View(invoice);
         }
 
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Invoice invoice = await db.Invoices.FindAsync(id);
+            Invoice invoice = await InvoiceDataAccess.GetInvoice(id);
+            List<Client> clients = await ClientDataAccess.GetClients();
+            List<Company> companies = await CompanyDataAccess.GetCompanies();
             if (invoice == null)
             {
                 return HttpNotFound();
             }
-            return View(invoice);
+            return View(new InvoiceClientsCompanies() { Invoice = invoice, Clients = clients, Companies = companies } );
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Date,Finished,Deleted,ClientID,CompanyID")] Invoice invoice)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,Date,ClientID,CompanyID")] Invoice invoice)
         {
             if (ModelState.IsValid)
             {
