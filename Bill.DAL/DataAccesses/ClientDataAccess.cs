@@ -7,38 +7,40 @@ namespace Bill.DAL.DataAccesses
 {
     public class ClientDataAccess
     {
-        public static async Task<List<Client>> GetClients()
+        private readonly BillContext db = new BillContext();
+
+        public async Task<List<Client>> GetClients()
         {
-            using (BillContext db = new BillContext())
-            {
-                return await db.Clients.ToListAsync();
-            }
+            return await db.Clients.ToListAsync();
         }
 
-        public static async Task<List<Client>> GetClientsWithInvoices()
+        public async Task<List<Client>> GetClientsWithInvoices()
         {
-            using (BillContext db  = new BillContext())
-            {
-                return await db.Clients.Include(c => c.Invoices).ToListAsync();
-            }
+            return await db.Clients.Include(c => c.Invoices).ToListAsync();
         }
 
-        public static async Task<Client> GetClient(int? id)
+        public async Task<Client> GetClient(int id)
         {
-            using (BillContext db = new BillContext())
-            {
-                return await db.Clients.FindAsync(id);
-            }
+            return await db.Clients.FindAsync(id);
         }
 
-        public static async Task EditClient(Client client)
+        public async Task CreateClient(Client client)
         {
-            using (BillContext db = new BillContext())
-            {
-                db.Entry(client).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-            }
+            db.Clients.Add(client);
+            await db.SaveChangesAsync();
+        }
 
+        public async Task EditClient(Client client)
+        {
+            db.Entry(client).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+        }
+
+        public async Task SoftDeleteClient(int id)
+        {
+            Client client = await GetClient(id);
+            client.Active = false;
+            await EditClient(client);
         }
     }
 }

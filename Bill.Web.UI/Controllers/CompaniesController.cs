@@ -9,25 +9,27 @@ using System.Web;
 using System.Web.Mvc;
 using Bill.DAL;
 using Bill.DataModels;
+using Bill.DAL.DataAccesses;
 
 namespace Presentation.Controllers
 {
     public class CompaniesController : Controller
     {
         private BillContext db = new BillContext();
+        private readonly CompanyDataAccess companyDA = new CompanyDataAccess();
 
         public async Task<ActionResult> Index()
         {
-            return View(await db.Companies.ToListAsync());
+            return View(await companyDA.GetCompanies());
         }
 
-        public async Task<ActionResult> Details(int? id)
+        public async Task<ActionResult> Details(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = await db.Companies.FindAsync(id);
+            Company company = await companyDA.GetCompany(id);
             if (company == null)
             {
                 return HttpNotFound();
@@ -46,21 +48,20 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Companies.Add(company);
-                await db.SaveChangesAsync();
+                await companyDA.CreateCompany(company);
                 return RedirectToAction("Index");
             }
 
             return View(company);
         }
 
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = await db.Companies.FindAsync(id);
+            Company company = await companyDA.GetCompany(id);
             if (company == null)
             {
                 return HttpNotFound();
@@ -74,20 +75,19 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(company).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                companyDA.EditCompany(company);
                 return RedirectToAction("Index");
             }
             return View(company);
         }
 
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = await db.Companies.FindAsync(id);
+            Company company = await companyDA.GetCompany(id);
             if (company == null)
             {
                 return HttpNotFound();
@@ -99,19 +99,8 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Company company = await db.Companies.FindAsync(id);
-            db.Companies.Remove(company);
-            await db.SaveChangesAsync();
+            companyDA.DeleteCompany(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

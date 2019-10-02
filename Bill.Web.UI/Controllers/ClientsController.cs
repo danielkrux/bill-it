@@ -16,22 +16,23 @@ namespace Presentation.Controllers
 {
     public class ClientsController : Controller
     {
-        private BillContext db = new BillContext();
+        private readonly ClientDataAccess clientDA = new ClientDataAccess();
+        private readonly ClientLogic clientLogic = new ClientLogic();
 
         public async Task<ActionResult> Index()
         {
-            List<Client> clients = await ClientDataAccess.GetClients();
-            List<Client> activeClients = await ClientLogic.GetActiveClients(clients);
-            return View(clients);
+            List<Client> clients = await clientDA.GetClientsWithInvoices();
+            List<Client> activeClients = await clientLogic.GetActiveClients(clients);
+            return View(activeClients);
         }
 
-        public async Task<ActionResult> Details(int? id)
+        public async Task<ActionResult> Details(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Client client = await ClientDataAccess.GetClient(id);
+            Client client = await clientDA.GetClient(id);
             if (client == null)
             {
                 return HttpNotFound();
@@ -50,21 +51,20 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Clients.Add(client);
-                await db.SaveChangesAsync();
+                await clientDA.CreateClient(client);
                 return RedirectToAction("Index");
             }
             return View(client);
         }
 
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Client client = await ClientDataAccess.GetClient(id);
+            Client client = await clientDA.GetClient(id);
             if (client == null)
             {
                 return HttpNotFound();
@@ -78,20 +78,19 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(client).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                await clientDA.EditClient(client);
                 return RedirectToAction("Index");
             }
             return View(client);
         }
 
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Client client = await db.Clients.FindAsync(id);
+            Client client = await clientDA.GetClient(id);
             if (client == null)
             {
                 return HttpNotFound();
@@ -103,19 +102,8 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Client client = await ClientDataAccess.GetClient(id);
-            client.Active = false;
-            await ClientDataAccess.EditClient(client);
+            clientDA.SoftDeleteClient(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

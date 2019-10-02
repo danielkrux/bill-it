@@ -24,38 +24,42 @@
       </a>
     </div>
   </div>
-<table class="table">
-  <tr>
-    <th>@Html.ActionLink("Factuurdatum", "Index", new { sortOrder = ViewBag.DateSortParam, currentFilter = ViewBag.CurrentFilter })</th>
-    <th>@Html.ActionLink("Voor klant", "Index", new { sortOrder = ViewBag.EmailSortParam, currentFilter = ViewBag.CurrentFilter })</th>
-    <th>@Html.ActionLink("Bedrijf", "Index", new { sortOrder = ViewBag.CompanySortParam, currentFilter = ViewBag.CurrentFilter })</th>
-    <th>@Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.FinishedSortParam, currentFilter = ViewBag.CurrentFilter })</th>
-    <th></th>
-  </tr>
+  <table class="table">
+    <tr>
+      <th>Code</th>
+      <th>@Html.ActionLink("Factuurdatum", "Index", new { sortOrder = ViewBag.DateSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+      <th>@Html.ActionLink("Voor klant", "Index", new { sortOrder = ViewBag.EmailSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+      <th>@Html.ActionLink("Bedrijf", "Index", new { sortOrder = ViewBag.CompanySortParam, currentFilter = ViewBag.CurrentFilter })</th>
+      <th>@Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.FinishedSortParam, currentFilter = ViewBag.CurrentFilter })</th>
+      <th></th>
+    </tr>
 
-  @foreach (var item in Model)
+  @foreach(var item in Model)
   {
-<tr>
-  <td>
-    @Html.DisplayFor(modelItem => item.Date)
-  </td>
-  <td>
-    @Html.DisplayFor(modelItem => item.Client.Email)
-  </td>
-  <td>
-    @Html.DisplayFor(modelItem => item.Company.Name)
-  </td>
-  <td>
-    @if (item.Finished)
-    {
-      <span class="badge badge-success my-auto ml-2 p-2">Afgewerkt</span>
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.Code)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Client.Email)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Company.Name)
+        </td>
+        <td>
+          @if (item.Finished)
+          {
+            <span class="badge badge-success my-auto ml-2 p-2">Afgewerkt</span>
+          }
+        </td>
+        <td class="text-right">
+          <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Invoices", new { id = item.ID})">Bekijk factuur</a>
+          <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Invoices", new { id = item.ID})"><i class="fas fa-edit"></i></a>
+          <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Invoices", new { id = item.ID})"><i class="fas fa-trash"></i></a>
+        </td>
+      </tr>
     }
-  </td>
-  <td class="text-right">
-    <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Invoices", new { id = item.ID})">Bekijk factuur</a>
-    <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Invoices", new { id = item.ID})"><i class="fas fa-edit"></i></a>
-    <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Invoices", new { id = item.ID})"><i class="fas fa-trash"></i></a>
-  </td>
-</tr>
-  }
-</table>
+  </table>

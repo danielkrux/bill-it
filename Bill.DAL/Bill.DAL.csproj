@@ -55,6 +55,7 @@
     <Compile Include="DataAccesses\ClientDataAccess.cs" />
     <Compile Include="DataAccesses\CompanyDataAccess.cs" />
     <Compile Include="DataAccesses\InvoiceDataAccess.cs" />
+    <Compile Include="DataAccesses\MonthYearCounterDataAccess.cs" />
     <Compile Include="Migrations\201909291418299_init.cs" />
     <Compile Include="Migrations\201909291418299_init.designer.cs">
       <DependentUpon>201909291418299_init.cs</DependentUpon>
@@ -67,10 +68,15 @@
     <Compile Include="Migrations\201909301350450_DoubleToDecimal.designer.cs">
       <DependentUpon>201909301350450_DoubleToDecimal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910011025002_AddedMYCounter.cs" />
+    <Compile Include="Migrations\201910011025002_AddedMYCounter.designer.cs">
+      <DependentUpon>201910011025002_AddedMYCounter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -94,6 +100,12 @@
     <EmbeddedResource Include="Migrations\201909301350450_DoubleToDecimal.resx">
       <DependentUpon>201909301350450_DoubleToDecimal.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910011025002_AddedMYCounter.resx">
+      <DependentUpon>201910011025002_AddedMYCounter.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configurations\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -15,11 +15,17 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      @*<div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="mr-2">@Html.ActionLink("Home", "Index", "Home")</li>
-          </ul>
-        </div>*@
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav text-white">
+          <li class="mr-2"><a class="text-white" href="@Url.Action("Index", "invoices")">Facturen</a></li>
+        </ul>
+        <ul class="nav navbar-nav text-white">
+          <li class="mr-2"><a class="text-white" href="@Url.Action("Index", "clients")">Klanten</a></li>
+        </ul>
+        <ul class="nav navbar-nav text-white">
+          <li class="mr-2"><a class="text-white" href="@Url.Action("Index", "companies")">Bedrijven</a></li>
+        </ul>
+      </div>
     </nav>
   </header>
   <main role="main" class="flex-shrink-0">

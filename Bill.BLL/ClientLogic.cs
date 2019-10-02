@@ -7,12 +7,12 @@ namespace Bill.BLL
 {
     public class ClientLogic
     {
-        public static async Task<List<Client>> GetActiveClients(List<Client> clients)
+        public async Task<List<Client>> GetActiveClients(List<Client> clients)
         {
             return clients.Where(c => c.Active == true).ToList();
         }
 
-        public static bool IsActiveClient(Client client)
+        public bool IsActiveClient(Client client)
         {
            return _ = client.Active ? true : false;
         }

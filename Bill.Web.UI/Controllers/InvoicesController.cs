@@ -17,7 +17,11 @@ namespace Bill.Web.UI.Controllers
 {
     public class InvoicesController : Controller
     {
-        private BillContext db = new BillContext();
+        private readonly InvoiceLogic invoiceLogic = new InvoiceLogic();
+        private readonly InvoiceDataAccess invoiceDA = new InvoiceDataAccess(); 
+        private readonly ClientDataAccess clientDA = new ClientDataAccess();
+        private readonly CompanyDataAccess companyDA = new CompanyDataAccess();
+
         public async Task<ActionResult> Index(string sortOrder, string searchString)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -26,11 +30,11 @@ namespace Bill.Web.UI.Controllers
             ViewBag.CompanySortParam = sortOrder == "company" ? "company_desc" : "company";
             ViewBag.FinishedSortParam = sortOrder == "finished" ? "finished_desc" : "finished";
             ViewBag.CurrentFilter = searchString;
-            List<Invoice> invoices = await InvoiceDataAccess.GetInvoices();
-            invoices = InvoiceLogic.SortTable(sortOrder, invoices);
+            List<Invoice> invoices = await invoiceDA.GetInvoices();
+            invoices = invoiceLogic.SortTable(sortOrder, invoices);
             if (!string.IsNullOrEmpty(searchString))
             {
-                invoices = InvoiceLogic.SearchInvoices(searchString, invoices);
+                invoices = invoiceLogic.SearchInvoices(searchString, invoices);
             }
             return View(invoices);
         }
@@ -41,10 +45,10 @@ namespace Bill.Web.UI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Invoice invoice = await InvoiceDataAccess.GetInvoice(id);
-            invoice.TotalBeforeVAT = InvoiceLogic.CalculateTotalBeforeVAT(invoice);
-            invoice.TotalPerVATRate = InvoiceLogic.CalculateTotalPerVATRate(invoice);
-            invoice.TotalAfterVAT = InvoiceLogic.CalculateTotalAfterVAT(invoice.TotalPerVATRate);
+            Invoice invoice = await invoiceDA.GetInvoice(id);
+            invoice.TotalBeforeVAT = invoiceLogic.CalculateTotalBeforeVAT(invoice);
+            invoice.TotalPerVATRate = invoiceLogic.CalculateTotalPerVATRate(invoice);
+            invoice.TotalAfterVAT = invoiceLogic.CalculateTotalAfterVAT(invoice.TotalPerVATRate);
             if (invoice == null)
             {
                 return HttpNotFound();
@@ -55,8 +59,8 @@ namespace Bill.Web.UI.Controllers
         public async Task<ActionResult> Create()
         {
             Invoice invoice = new Invoice();
-            List<Client> clients = await ClientDataAccess.GetClients();
-            List<Company> companies = await CompanyDataAccess.GetCompanies();
+            List<Client> clients = await clientDA.GetClients();
+            List<Company> companies = await companyDA.GetCompanies();
             return View(new InvoiceClientsCompanies() { Invoice = invoice, Clients = clients, Companies = companies });
         }
 
@@ -66,7 +70,7 @@ namespace Bill.Web.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                await InvoiceDataAccess.CreateInvoice(invoice);
+                await invoiceDA.CreateInvoice(invoice);
                 return RedirectToAction("Index");
             }
 
@@ -79,9 +83,9 @@ namespace Bill.Web.UI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Invoice invoice = await InvoiceDataAccess.GetInvoice(id);
-            List<Client> clients = await ClientDataAccess.GetClients();
-            List<Company> companies = await CompanyDataAccess.GetCompanies();
+            Invoice invoice = await invoiceDA.GetInvoice(id);
+            List<Client> clients = await clientDA.GetClients();
+            List<Company> companies = await companyDA.GetCompanies();
             if (invoice == null)
             {
                 return HttpNotFound();
@@ -95,20 +99,19 @@ namespace Bill.Web.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(invoice).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                await invoiceDA.EditInvoice(invoice);
                 return RedirectToAction("Index");
             }
             return View(invoice);
         }
 
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Invoice invoice = await db.Invoices.FindAsync(id);
+            Invoice invoice = await invoiceDA.GetInvoice(id);
             if (invoice == null)
             {
                 return HttpNotFound();
@@ -120,19 +123,8 @@ namespace Bill.Web.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Invoice invoice = await db.Invoices.FindAsync(id);
-            db.Invoices.Remove(invoice);
-            await db.SaveChangesAsync();
+            await invoiceDA.DeleteInvoice(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

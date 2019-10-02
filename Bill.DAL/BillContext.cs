@@ -11,6 +11,7 @@ namespace Bill.DAL
         public DbSet<Company> Companies { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceLine> InvoiceLines { get; set; }
+        public DbSet<MonthYearCounter> MonthYearCounters { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

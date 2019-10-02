@@ -2,69 +2,50 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bill.BLL
 {
     public class InvoiceLogic
     {
-        public static List<Invoice> SortTable(string SortOrder, List<Invoice> Invoices)
+        public List<Invoice> SortTable(string SortOrder, List<Invoice> Invoices) => SortOrder switch
         {
-            switch (SortOrder)
-            {
-                case "date_desc":
-                    Invoices = Invoices.OrderByDescending(i => i.Date).ToList();
-                    break;
-                case "date":
-                    Invoices = Invoices.OrderBy(i => i.Date).ToList();
-                    break;
-                case "email_desc":
-                    Invoices = Invoices.OrderByDescending(i => i.Client.Email).ToList();
-                    break;
-                case "email":
-                    Invoices = Invoices.OrderBy(i => i.Client.Email).ToList();
-                    break;
-                case "company_desc":
-                    Invoices = Invoices.OrderByDescending(i => i.Company.Name).ToList();
-                    break;
-                case "company":
-                    Invoices = Invoices.OrderBy(i => i.Company.Name).ToList();
-                    break;
-                case "finished_desc":
-                    Invoices = Invoices.OrderByDescending(i => i.Finished).ToList();
-                    break;
-                case "finished":
-                    Invoices = Invoices.OrderBy(i => i.Finished).ToList();
-                    break;
-                default:
-                    Invoices = Invoices.OrderBy(i => i.Date).ToList();
-                    break;
-            }
-            return Invoices;
+            "date_desc" => Invoices.OrderByDescending(i => i.Date).ToList(),
+            "date" => Invoices.OrderBy(i => i.Date).ToList(),
+            "email_desc" => Invoices.OrderByDescending(i => i.Client.Email).ToList(),
+            "email" => Invoices.OrderBy(i => i.Client.Email).ToList(),
+            "company_desc" => Invoices.OrderByDescending(i => i.Company.Name).ToList(),
+            "company" => Invoices.OrderBy(i => i.Company.Name).ToList(),
+            "finished_desc" => Invoices.OrderByDescending(i => i.Finished).ToList(),
+            "finished" => Invoices.OrderBy(i => i.Finished).ToList(),
+            _ => Invoices.OrderBy(i => i.Date).ToList(),
+        };
+
+        public List<Invoice> SearchInvoices(string SearchString, List<Invoice> Invoices)
+        {
+            return Invoices = Invoices.Where(i =>
+            i.Client.Email.Contains(SearchString)
+            || i.Company.Name.Contains(SearchString)
+            || i.Code.Contains(SearchString))
+                .ToList();
         }
 
-        public static List<Invoice> SearchInvoices(string SearchString, List<Invoice> Invoices)
+        public string CreateInvoiceCode(int Counter, Invoice Invoice)
         {
-            return Invoices = Invoices.Where(i => i.Client.Email.Contains(SearchString) || i.Company.Name.Contains(SearchString)).ToList();
+            return $"{Invoice.Date.Year}" + $"{Invoice.Date.Month.ToString("00")}" + '-' + $"{Counter:0000}";
         }
 
-        public static string CreateInvoiceCode(int invoiceID)
-        {
-            return DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("d2") + '-' + $"{invoiceID:0000}";
-        }
-
-        public static decimal CalculateSubtotal(InvoiceLine InvoiceLine)
+        public decimal CalculateSubtotal(InvoiceLine InvoiceLine)
         {
             var discount = (InvoiceLine.Price * InvoiceLine.Amount) / 100 * InvoiceLine.Discount;
             return (InvoiceLine.Price * InvoiceLine.Amount) - discount;
         }
 
-        public static decimal CalculateTotalBeforeVAT(Invoice invoice)
+        public decimal CalculateTotalBeforeVAT(Invoice invoice)
         {
             return invoice.InvoiceLines.ToList().Sum(x => x.TotalCostAfterDiscount);
         }
-
-        public static List<TotalPerVATRate> CalculateTotalPerVATRate(Invoice Invoice)
+        
+        public List<TotalPerVATRate> CalculateTotalPerVATRate(Invoice Invoice)
         {
             var groupedInvoices = Invoice.InvoiceLines.GroupBy(x => x.VAT).ToList();
             List<TotalPerVATRate> CalculatedTotals = new List<TotalPerVATRate>();
@@ -90,7 +71,7 @@ namespace Bill.BLL
             return CalculatedTotals;
         }
 
-        public static decimal CalculateTotalAfterVAT(List<TotalPerVATRate> CalculatedTotals)
+        public decimal CalculateTotalAfterVAT(List<TotalPerVATRate> CalculatedTotals)
         {
             return CalculatedTotals.Sum(c => c.TotalAfterVAT);
         }
