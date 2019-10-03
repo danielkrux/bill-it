@@ -30,8 +30,11 @@ namespace Bill.Web.UI.Controllers
             ViewBag.CompanySortParam = sortOrder == "company" ? "company_desc" : "company";
             ViewBag.FinishedSortParam = sortOrder == "finished" ? "finished_desc" : "finished";
             ViewBag.CurrentFilter = searchString;
+
             List<Invoice> invoices = await invoiceDA.GetInvoices();
+            invoices = invoiceLogic.GetActiveInvoices(invoices);
             invoices = invoiceLogic.SortTable(sortOrder, invoices);
+
             if (!string.IsNullOrEmpty(searchString))
             {
                 invoices = invoiceLogic.SearchInvoices(searchString, invoices);

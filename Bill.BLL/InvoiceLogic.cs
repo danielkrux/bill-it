@@ -2,11 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bill.BLL
 {
     public class InvoiceLogic
     {
+        public List<Invoice> GetActiveInvoices(List<Invoice> invoices)
+        {
+            return invoices.Where(i => i.Deleted == false).ToList();
+        }
+
+        public bool CanDelete(Invoice invoice)
+        {
+            return invoice.InvoiceLines.Count > 0 ? false : true;
+        }
+
         public List<Invoice> SortTable(string SortOrder, List<Invoice> Invoices) => SortOrder switch
         {
             "date_desc" => Invoices.OrderByDescending(i => i.Date).ToList(),

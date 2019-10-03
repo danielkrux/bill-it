@@ -64,8 +64,16 @@ namespace Bill.DAL
         public async Task DeleteInvoice(int id)
         {
             Invoice invoice = await GetInvoice(id);
-            db.Invoices.Remove(invoice);
-            await db.SaveChangesAsync();
+            if (invoiceLogic.CanDelete(invoice))
+            {
+                db.Invoices.Remove(invoice);
+                await db.SaveChangesAsync();
+            }
+            else
+            {
+                invoice.Deleted = true;
+                await EditInvoice(invoice);
+            }
         }
 
         #region HelperMethods
