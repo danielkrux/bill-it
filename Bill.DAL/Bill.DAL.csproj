@@ -40,9 +40,15 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="MoreLinq, Version=3.2.0.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.3.2.0\lib\net451\MoreLinq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,7 +61,6 @@
     <Compile Include="DataAccesses\ClientDataAccess.cs" />
     <Compile Include="DataAccesses\CompanyDataAccess.cs" />
     <Compile Include="DataAccesses\InvoiceDataAccess.cs" />
-    <Compile Include="DataAccesses\MonthYearCounterDataAccess.cs" />
     <Compile Include="Migrations\201909291418299_init.cs" />
     <Compile Include="Migrations\201909291418299_init.designer.cs">
       <DependentUpon>201909291418299_init.cs</DependentUpon>
@@ -71,6 +76,14 @@
     <Compile Include="Migrations\201910011025002_AddedMYCounter.cs" />
     <Compile Include="Migrations\201910011025002_AddedMYCounter.designer.cs">
       <DependentUpon>201910011025002_AddedMYCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910021909533_InvoiceCodeToInt.cs" />
+    <Compile Include="Migrations\201910021909533_InvoiceCodeToInt.designer.cs">
+      <DependentUpon>201910021909533_InvoiceCodeToInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910032023393_RemovedMonthYearCounter.cs" />
+    <Compile Include="Migrations\201910032023393_RemovedMonthYearCounter.designer.cs">
+      <DependentUpon>201910032023393_RemovedMonthYearCounter.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,6 +115,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910011025002_AddedMYCounter.resx">
       <DependentUpon>201910011025002_AddedMYCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910021909533_InvoiceCodeToInt.resx">
+      <DependentUpon>201910021909533_InvoiceCodeToInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910032023393_RemovedMonthYearCounter.resx">
+      <DependentUpon>201910032023393_RemovedMonthYearCounter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

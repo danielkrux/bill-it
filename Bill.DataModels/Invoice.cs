@@ -13,10 +13,11 @@ namespace Bill.DataModels
         public bool Deleted { get; set; }
         public int ClientID { get; set; }
         public int CompanyID { get; set; }
-        public string Code { get; set; }
+        public int Code { get; set; }
 
         public List<TotalPerVATRate> TotalPerVATRate { get; set; }
 
+        public string FormattedCode { get { return FormatInvoiceCode(Code); } set { } }
         public decimal TotalBeforeVAT { get; set; }
         public decimal TotalAfterVAT { get; set; }
 
@@ -24,5 +25,11 @@ namespace Bill.DataModels
         public virtual Client Client { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<InvoiceLine> InvoiceLines { get; set; }
+
+        public string FormatInvoiceCode(int invoiceCode)
+        {
+            string code = invoiceCode.ToString();
+            return $"{code.Insert(6, "-")}";
+        }
     }
 }

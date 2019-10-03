@@ -22,11 +22,10 @@ namespace Bill.BLL
 
         public List<Invoice> SearchInvoices(string SearchString, List<Invoice> Invoices)
         {
-            return Invoices = Invoices.Where(i =>
+            return Invoices.Where(i =>
             i.Client.Email.Contains(SearchString)
             || i.Company.Name.Contains(SearchString)
-            || i.Code.Contains(SearchString))
-                .ToList();
+            || i.Code.ToString().Contains(SearchString)).ToList();
         }
 
         public string CreateInvoiceCode(int Counter, Invoice Invoice)

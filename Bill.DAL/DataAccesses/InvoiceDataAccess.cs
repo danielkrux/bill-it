@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using System;
 using System.Data.Entity;
 using Bill.BLL;
-using Bill.DAL.DataAccesses;
+using System.Linq;
+using MoreLinq.Extensions;
 
 namespace Bill.DAL
 {
@@ -13,13 +14,16 @@ namespace Bill.DAL
         private readonly InvoiceLogic invoiceLogic = new InvoiceLogic();
         private readonly BillContext db = new BillContext();
 
-        //Get a list of invoices with the Client and Company to show email of client and name of company on the Index page
         public async Task<List<Invoice>> GetInvoices()
+        {
+            return await db.Invoices.ToListAsync();
+        }
+
+        public async Task<List<Invoice>> GetInvoicesWithClientCompany()
         {
             return await db.Invoices.Include(i => i.Client).Include(i => i.Company).ToListAsync();
         }
 
-        //Get an invoice with the Client and Company and include the detail lines of the invoice
         public async Task<Invoice> GetInvoice(int id)
         {
             return await db.Invoices
@@ -31,19 +35,22 @@ namespace Bill.DAL
 
         public async Task CreateInvoice(Invoice invoice)
         {
+            string InvoiceMonth = invoice.Date.Month.ToString("d2");
+            int InvoiceYear = invoice.Date.Year;
+
             db.Invoices.Add(invoice);
             await db.SaveChangesAsync();
+
             try
             {
-                MonthYearCounter myCounter = await MonthYearCounterDataAccess.GetMonthYearCounterByDate(invoice.Date);
-                await MonthYearCounterDataAccess.EditMonthYearCounter(myCounter);
-                invoice.Code = invoiceLogic.CreateInvoiceCode(myCounter.CurrentCounter, invoice);
+                Invoice invoiceWithLatestCode = await GetInvoiceWithLatestCode($"{InvoiceYear + InvoiceMonth}");
+                invoice.Code = invoiceWithLatestCode.Code++;
             }
             catch (Exception)
             {
-                int counter = await MonthYearCounterDataAccess.CreateMonthYearCounter(invoice);
-                invoice.Code = invoiceLogic.CreateInvoiceCode(counter, invoice);
+                invoice.Code = Convert.ToInt32($"{InvoiceYear}{InvoiceMonth}0001");
             }
+
             db.Entry(invoice).State = EntityState.Modified;
             await db.SaveChangesAsync();
         }
@@ -60,5 +67,14 @@ namespace Bill.DAL
             db.Invoices.Remove(invoice);
             await db.SaveChangesAsync();
         }
+
+        #region HelperMethods
+        private async Task<Invoice> GetInvoiceWithLatestCode(string dateOfCode)
+        {
+            List<Invoice> invoices = await GetInvoices();
+            return invoices.Where(i => i.Code.ToString().Contains(dateOfCode))
+                           .MaxBy(i => i.Code).FirstOrDefault();
+        }
+        #endregion
     }
 }
