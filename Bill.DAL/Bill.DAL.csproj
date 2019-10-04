@@ -85,6 +85,10 @@
     <Compile Include="Migrations\201910032023393_RemovedMonthYearCounter.designer.cs">
       <DependentUpon>201910032023393_RemovedMonthYearCounter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910040935216_AddedDeleteMessage.cs" />
+    <Compile Include="Migrations\201910040935216_AddedDeleteMessage.designer.cs">
+      <DependentUpon>201910040935216_AddedDeleteMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -121,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910032023393_RemovedMonthYearCounter.resx">
       <DependentUpon>201910032023393_RemovedMonthYearCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910040935216_AddedDeleteMessage.resx">
+      <DependentUpon>201910040935216_AddedDeleteMessage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

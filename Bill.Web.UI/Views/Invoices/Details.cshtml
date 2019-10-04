@@ -1,18 +1,18 @@
 ﻿@model Bill.DataModels.Invoice
 
 @{
-  ViewBag.Title = $"Details {Model.Code}";
+  ViewBag.Title = $"Details {Model.FormattedCode}";
 }
 
 <div class="row my-4">
-  <h2 class="">Factuur @Model.Code</h2>
+  <h2 class="">Factuur @Model.FormattedCode</h2>
   @if (Model.Finished)
   {
     <span class="badge badge-success my-auto ml-2 p-2 d-print-none">Afgewerkt</span>
   }
   <div class="ml-auto my-auto d-print-none">
     <button class="btn btn-light mr-2" onclick="window.print()"><i class="fas fa-print"></i>&nbsp;Adrukken</button>
-    <button class="btn btn-danger mr-2"><i class="fas fa-trash"></i>&nbsp;Verwijderen</button>
+    <button class="btn btn-danger mr-2" data-toggle="modal" data-target="#deleteModel"><i class="fas fa-trash"></i>&nbsp;Verwijderen</button>
     <button class="btn btn-primary @(@Model.Finished ? "disabled" : "")"><i class="fas fa-plus"></i>&nbsp;Item toevoegen</button>
   </div>
 </div>
@@ -91,3 +91,38 @@
     </tr>
   </tfoot>
 </table>
+
+<div class="modal" id="deleteModel" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Opgelet</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      @using (Html.BeginForm("Delete", "Invoices", FormMethod.Post))
+      {
+        <div class="modal-body">
+          Weet u zeker dat u deze factuur wilt verwijderen?
+          @if (Model.InvoiceLines.Count > 0)
+          {
+            <p>Geef hieronder ook een reden waarom u deze factuur wilt verwijderen</p>
+            @Html.EditorFor(model => model.DeleteMessage, new { htmlAttributes = new { @class = "form-control" } })
+          }
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Terug</button>
+
+
+          @Html.AntiForgeryToken()
+          @Html.HiddenFor(model => model.ID)
+
+          <div class="form-actions no-color">
+            <input type="submit" value="Verwijderen" class="btn btn-danger" />
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

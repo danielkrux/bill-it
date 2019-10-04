@@ -14,6 +14,7 @@ namespace Bill.DataModels
         public int ClientID { get; set; }
         public int CompanyID { get; set; }
         public int Code { get; set; }
+        public string DeleteMessage { get; set; }
 
         public List<TotalPerVATRate> TotalPerVATRate { get; set; }
 

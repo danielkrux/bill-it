@@ -124,9 +124,10 @@ namespace Bill.Web.UI.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id, string deleteMessage)
         {
-            await invoiceDA.DeleteInvoice(id);
+
+            await invoiceDA.DeleteInvoice(id, deleteMessage);
             return RedirectToAction("Index");
         }
     }

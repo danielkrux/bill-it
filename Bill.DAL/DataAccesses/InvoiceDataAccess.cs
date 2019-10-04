@@ -43,7 +43,7 @@ namespace Bill.DAL
 
             try
             {
-                Invoice invoiceWithLatestCode = await GetInvoiceWithLatestCode($"{InvoiceYear + InvoiceMonth}");
+                Invoice invoiceWithLatestCode = await GetInvoiceWithHighestCodeByDate($"{InvoiceYear + InvoiceMonth}");
                 invoice.Code = invoiceWithLatestCode.Code++;
             }
             catch (Exception)
@@ -61,7 +61,7 @@ namespace Bill.DAL
             await db.SaveChangesAsync();
         }
 
-        public async Task DeleteInvoice(int id)
+        public async Task DeleteInvoice(int id, string message)
         {
             Invoice invoice = await GetInvoice(id);
             if (invoiceLogic.CanDelete(invoice))
@@ -72,12 +72,13 @@ namespace Bill.DAL
             else
             {
                 invoice.Deleted = true;
+                invoice.DeleteMessage = message;
                 await EditInvoice(invoice);
             }
         }
 
         #region HelperMethods
-        private async Task<Invoice> GetInvoiceWithLatestCode(string dateOfCode)
+        private async Task<Invoice> GetInvoiceWithHighestCodeByDate(string dateOfCode)
         {
             List<Invoice> invoices = await GetInvoices();
             return invoices.Where(i => i.Code.ToString().Contains(dateOfCode))
